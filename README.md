@@ -1,3 +1,41 @@
+Mac Pixel Clock Patcher
+=====
+
+This will remove the 165 pixel clock limiter on your display driver to support 4k @ 30Hz over HDMI.
+An [Active DisplayPort to HDMI adapter](http://www.amazon.com/gp/product/B00DOZHLAA/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00DOZHLAA&linkCode=as2&tag=makeramencom-20&linkId=TR5RNZEM24Z7KP7N) is often needed for this to work.
+
+Based on the [original](https://code.google.com/p/mac-pixel-clock-patch/wiki/Documentation)
+And the [mavericks update](https://code.google.com/r/douglas-mac-pixel-clock-patch/)
+
+
+How to install this patch
+=====
+
+Download the `.command` file
+
+Download it into your Downloads folder. Open Terminal and run:
+
+```
+cd ~/Downloads
+
+chmod +x macPixelClockPatcher.command
+
+./macPixelClockPatcher.command
+
+```
+
+You will be asked to enter your password to approve changes in your system.
+
+Pay attention to the output - it should say it detected unpatched IOKit and NVIDIA driver on (your OS X version) and patch it.
+
+Reboot your system.
+
+After reboot, you should be able to get custom resolutions with over 165 MHz pixel clock to work using SwitchResX (not required after 10.9).
+
+
+Instructions for updating the command for newer versions of IOKit
+=====
+
 Instructions for how to reproduce the IOKit patch on a newer version of the
 binary:
 
