@@ -1,10 +1,13 @@
 Mac Pixel Clock Patcher
 =====
 
+Updated with Yosemite Beta support!
+
 This will remove the 165 pixel clock limiter on your display driver to support 4k @ 30Hz over HDMI.
 An [Active DisplayPort to HDMI adapter](http://www.amazon.com/gp/product/B00DOZHLAA/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00DOZHLAA&linkCode=as2&tag=makeramencom-20&linkId=TR5RNZEM24Z7KP7N) is often needed for this to work.
 
 Based on the [original](https://code.google.com/p/mac-pixel-clock-patch/wiki/Documentation)
+
 And the [mavericks update](https://code.google.com/r/douglas-mac-pixel-clock-patch/)
 
 
