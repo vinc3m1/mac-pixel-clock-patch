@@ -14,6 +14,7 @@ iokit_md5_10_9_3=9a86b6708569360f3156b53cc4f205d9
 iokit_md5_10_9_4=6105cc8f503b589f8b3ce2d3917ad150
 iokit_md5_10_10_BETA_8=1fe4ef08632ca0e685beb622330ec027
 iokit_md5_10_10_BETA_4A379a=440d2f2e11286ae1356e30d37cbd56c5
+iokit_md5_10_10=2a8cbc2f6616d3f7a5e499bd2d5593ab
 
 
 iokit_md5_10_7_4_patched=92eb38917f6ec4f341bff6fd1b6076ed
@@ -24,8 +25,7 @@ iokit_md5_10_8_5_12F45_patched=de3ad8279077c675ae8093193deb253f
 iokit_md5_10_9_1_patched=0962001659a2031c2425206d9239bda4
 iokit_md5_10_9_2_patched=45d8fc0e1210f0672297a7716478990e
 iokit_md5_10_9_4_patched=fa60af29f293214caab2b74223f9638d
-iokit_md5_10_10_BETA_8_patched=ef33316712e303473c20c6eddf2becf1
-iokit_md5_10_10_BETA_4A379a_patched=b7c1380f8935b4cdd07ab3b2fef11d8c
+# because the codesigning patched IOKit md5's cant be determend (they will be different for evryone)
 
 
 nvda_md5_10_8_3=6a2d5017b6ddd3d19de2f4039d4c88ec
@@ -296,6 +296,14 @@ fi
 
 if [ "$iokit_md5_current" = "$iokit_md5_10_10_BETA_4A379a" ]; then
 	echo "Detected unpatched IOKit on 10.10 Beta 4A379a, patching."
+	sudo perl -i.bak -pe '$before = qr"\x0F\x85\x9E\x03\x00\x00"s;s/$before/\xE9\x83\x03\x00\x00\x90/g' /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
+	sudo touch /System/Library/Extensions
+	# Now appears to require re-signing, despite not being in CodeResources
+	sudo codesign -f -s - /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
+fi
+
+if [ "$iokit_md5_current" = "$iokit_md5_10_10" ]; then
+	echo "Detected unpatched IOKit on 10.10, patching."
 	sudo perl -i.bak -pe '$before = qr"\x0F\x85\x9E\x03\x00\x00"s;s/$before/\xE9\x83\x03\x00\x00\x90/g' /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
 	sudo touch /System/Library/Extensions
 	# Now appears to require re-signing, despite not being in CodeResources
