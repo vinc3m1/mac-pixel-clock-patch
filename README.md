@@ -126,8 +126,8 @@ offset 0x0000039D will be in the instruction stream as 0x9D 0x03 0x00 0x00
 So, finally, the existing instruction is `JNE +925`, or `JNE +0x39D`, which is
 encoded as:
 ```
-(0F 85) JNE (9D 39 00 00) +925
-0F 85 9D 39 00 00
+(0F 85) JNE (9D 03 00 00) +925
+0F 85 9D 03 00 00
 ```
 
 The instructions we want to replace it with are `JMP +900`, `NOP`, or `JMP +0x384`,
