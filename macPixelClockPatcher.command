@@ -15,7 +15,7 @@ iokit_md5_10_9_4=6105cc8f503b589f8b3ce2d3917ad150
 iokit_md5_10_10_BETA_8=1fe4ef08632ca0e685beb622330ec027
 iokit_md5_10_10_BETA_4A379a=440d2f2e11286ae1356e30d37cbd56c5
 iokit_md5_10_10=2a8cbc2f6616d3f7a5e499bd2d5593ab
-
+iokit_md5_10_10_2=a94dc8e1b6bb6491e5f610f0a3caf960
 
 iokit_md5_10_7_4_patched=92eb38917f6ec4f341bff6fd1b6076ed
 iokit_md5_10_7_5_patched=b5b15d1ed5a404962bc7de895a0df56a
@@ -24,8 +24,8 @@ iokit_md5_10_8_4_patched=8c70a0ca62bf65e9ffa8667e2871c287
 iokit_md5_10_8_5_12F45_patched=de3ad8279077c675ae8093193deb253f
 iokit_md5_10_9_1_patched=0962001659a2031c2425206d9239bda4
 iokit_md5_10_9_2_patched=45d8fc0e1210f0672297a7716478990e
-iokit_md5_10_9_4_patched=fa60af29f293214caab2b74223f9638d
-# because the codesigning patched IOKit md5's cant be determend (they will be different for evryone)
+
+# from 10.9.4 patched md5's can not be determined due to codesigning
 
 
 nvda_md5_10_8_3=6a2d5017b6ddd3d19de2f4039d4c88ec
@@ -184,18 +184,7 @@ if [ "$iokit_md5_current" = "$iokit_md5_10_9_2_patched" ]; then
 	echo "Detected patched IOKit on 10.9.2, no action taken."
 fi
 
-
-if [ "$iokit_md5_current" = "$iokit_md5_10_9_4_patched" ]; then
-	echo "Detected patched IOKit on 10.9.4, no action taken."
-fi
-
-if [ "$iokit_md5_current" = "iokit_md5_10_10_BETA_8_patched" ]; then
-	echo "Detected patched IOKit on 10.10 Beta 8, no action taken."
-fi
-
-if [ "$iokit_md5_current" = "iokit_md5_10_10_BETA_4A379a_patched" ]; then
-	echo "Detected patched IOKit on 10.10 Beta 4A379a, no action taken."
-fi
+# from 10.9.4 the patched md5 cannot be determined due to the codesigning
 
 if [ "$nvda_md5_current" = "$nvda_md5_10_8_3_patched" ]; then
 	echo "Detected patched NVIDIA driver on 10.8.3, no action taken."
@@ -304,6 +293,14 @@ fi
 
 if [ "$iokit_md5_current" = "$iokit_md5_10_10" ]; then
 	echo "Detected unpatched IOKit on 10.10, patching."
+	sudo perl -i.bak -pe '$before = qr"\x0F\x85\x9E\x03\x00\x00"s;s/$before/\xE9\x83\x03\x00\x00\x90/g' /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
+	sudo touch /System/Library/Extensions
+	# Now appears to require re-signing, despite not being in CodeResources
+	sudo codesign -f -s - /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
+fi
+
+if [ "$iokit_md5_current" = "$iokit_md5_10_10_2" ]; then
+	echo "Detected unpatched IOKit on 10.10.2, patching."
 	sudo perl -i.bak -pe '$before = qr"\x0F\x85\x9E\x03\x00\x00"s;s/$before/\xE9\x83\x03\x00\x00\x90/g' /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
 	sudo touch /System/Library/Extensions
 	# Now appears to require re-signing, despite not being in CodeResources
