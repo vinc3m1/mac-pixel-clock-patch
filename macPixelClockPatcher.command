@@ -11,6 +11,7 @@ iokit_md5_10_8_5_12F45=5d69bf9227997dfad5e48fa87bd14598
 iokit_md5_10_9_1=d085445f30410008593a65ef4b5f9889
 iokit_md5_10_9_2=9804392bbe8ba4b589175be56889c6c7
 iokit_md5_10_10_beta=62195c9c8a2ddcf34b70d872afbd2835
+iokit_md5_10_10_3=29d7632362b2fa4993156717671a5642
 
 iokit_md5_10_7_4_patched=92eb38917f6ec4f341bff6fd1b6076ed
 iokit_md5_10_7_5_patched=b5b15d1ed5a404962bc7de895a0df56a
@@ -20,6 +21,7 @@ iokit_md5_10_8_5_12F45_patched=de3ad8279077c675ae8093193deb253f
 iokit_md5_10_9_1_patched=0962001659a2031c2425206d9239bda4
 iokit_md5_10_9_2_patched=45d8fc0e1210f0672297a7716478990e
 iokit_md5_10_10_beta_patched=a1f6bdb69ac043f8ed3e3c86415b9b20
+iokit_md5_10_10_3_patched=edd5c9fdbded3084892d94500133896b
 
 nvda_md5_10_8_3=6a2d5017b6ddd3d19de2f4039d4c88ec
 nvda_md5_10_8_4=b553fd25b25d2262317e9de758888d2b
@@ -72,6 +74,10 @@ fi
 
 if [ "$iokit_md5_current" = "$iokit_md5_10_10_beta_patched" ]; then
     echo "Detected patched IOKit on 10.10 beta, no action taken."
+fi
+
+if [ "$iokit_md5_current" = "$iokit_md5_10_10_3_patched" ]; then
+    echo "Detected patched IOKit on 10.10.3, no action taken."
 fi
 
 if [ "$nvda_md5_current" = "$nvda_md5_10_8_3_patched" ]; then
@@ -152,6 +158,13 @@ if [ "$iokit_md5_current" = "$iokit_md5_10_10_beta" ]; then
     echo "Detected unpatched IOKit on 10.10 beta, patching."
         sudo perl -i.bak -pe '$before = qr"\x0F\x85\x9E\x03\x00\x00"s;s/$before/\xE9\x83\x03\x00\x00\x90/g' /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
         sudo touch /System/Library/Extensions
+fi
+
+if [ "$iokit_md5_current" = "$iokit_md5_10_10_3" ]; then
+        echo "Detected unpatched IOKit on 10.10.3, patching."
+        sudo perl -i.bak -pe '$before = qr"\x0F\x85\x9E\x03\x00\x00"s;s/$before/\xE9\x83\x03\x00\x00\x90/g' /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
+        sudo touch /System/Library/Extensions
+        sudo codesign -f -s - /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
 fi
 
 
