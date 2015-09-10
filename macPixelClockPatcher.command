@@ -26,6 +26,7 @@ iokit_md5_10_11_B5=798a8e362e89e38e8f9cf6e59fda5184
 iokit_md5_10_11_B6=fd1d5161af223a95452ee90f294eb8ba
 iokit_md5_10_11_B7=c8b8830d495a2ba76e99f50e17b9f9ef
 iokit_md5_10_11_B8=3b91046e15867c7db44b8d699db8a5cf
+iokit_md5_10_11=cd40217cd8d2ed8f16fa4ca513253109
 
 
 iokit_md5_10_7_4_patched=92eb38917f6ec4f341bff6fd1b6076ed
@@ -268,6 +269,14 @@ fi
 
 if [ "$iokit_md5_current" = "$iokit_md5_10_11_B8" ]; then
 	echo "Detected unpatched IOKit on 10.11 BETA 8, patching."
+	sudo perl -i.bak -pe '$before = qr"\x0f\x85\x92\x03\x00\x00"s;s/$before/\xe9\x7a\x03\x00\x00\x90/g' /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
+	sudo touch /System/Library/Extensions
+	# Now appears to require re-signing, despite not being in CodeResources
+	sudo codesign -f -s - /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
+fi
+
+if [ "$iokit_md5_current" = "$iokit_md5_10_11" ]; then
+	echo "Detected unpatched IOKit on 10.11 (GM Candidate), patching."
 	sudo perl -i.bak -pe '$before = qr"\x0f\x85\x92\x03\x00\x00"s;s/$before/\xe9\x7a\x03\x00\x00\x90/g' /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
 	sudo touch /System/Library/Extensions
 	# Now appears to require re-signing, despite not being in CodeResources
