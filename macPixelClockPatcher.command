@@ -43,11 +43,16 @@ nvda_md5_10_8_3=6a2d5017b6ddd3d19de2f4039d4c88ec
 nvda_md5_10_8_4=b553fd25b25d2262317e9de758888d2b
 nvda_md5_10_8_5_12F45=f84d891f1a67aa278453be59a6e1fece
 nvda_md5_10_9_1=6de28959ec948513c239b1bf31205465
+nvda_md5_10_10_5=9b584e820da1b7a0a32416d4c6e34886
+nvda_md5_10_11=1ecb016bc5b4ed7b7949d87e4f3f234a
+
 
 nvda_md5_10_8_3_patched=7e8372fca35c5e7db90a229e70709d58
 nvda_md5_10_8_4_patched=3c552ba24fa89b2ea892dd711088e8d5
 nvda_md5_10_8_5_12F45_patched=5e65da83006468e8a69ef60a180ea08d
 nvda_md5_10_9_1_patched=bbb0885323ea3221150839782fbd553f
+nvda_md5_10_10_5_patched=8cc9299149c3ab99fe6def45366ecb40
+nvda_md5_10_11_patched=b6babc8ca4f03bdb2552bb01c51770b1
 
 amd_md5_10_9_1=693bffd29de3e5af0f49ae02f9d6a319
 
@@ -107,6 +112,14 @@ fi
 
 if [ "$nvda_md5_current" = "$nvda_md5_10_9_1_patched" ]; then
 	echo "Detected patched NVIDIA driver on 10.9.1, no action taken."
+fi
+
+if [ "$nvda_md5_current" = "$nvda_md5_10_10_5_patched" ]; then
+	echo "Detected patched NVIDIA driver on 10.10.5, no action taken."
+fi
+
+if [ "$nvda_md5_current" = "$nvda_md5_10_11_patched" ]; then
+	echo "Detected patched NVIDIA driver on 10.11, no action taken."
 fi
 
 
@@ -310,6 +323,17 @@ if [ "$nvda_md5_current" = "$nvda_md5_10_9_1" ]; then
 	sudo touch /System/Library/Extensions
 fi
 
+if [ "$nvda_md5_current" = "$nvda_md5_10_10_5" ]; then
+	echo "Detected unpatched NVIDIA driver on 10.10.5, patching."
+	sudo perl -i.bak -pe '$oldLimit1 = qr"\xC7\x82\xD0\x00\x00\x00\x88\x84\x02\x00"s;$newLimit1 = "\xC7\x82\xD0\x00\x00\x00\x80\x1A\x06\x00";$oldLimit2 = qr"\xC7\x82\x20\x01\x00\x00\x88\x84\x02\x00"s;$newLimit2 = "\xC7\x82\x20\x01\x00\x00\x80\x1A\x06\x00";s/$oldLimit1/$newLimit1/g;s/$oldLimit2/$newLimit2/g' /System/Library/Extensions/NVDAGK100Hal.kext/Contents/MacOS/NVDAGK100Hal
+	sudo touch /System/Library/Extensions
+fi
+
+if [ "$nvda_md5_current" = "$nvda_md5_10_11" ]; then
+	echo "Detected unpatched NVIDIA driver on 10.11, patching."
+	sudo perl -i.bak -pe '$oldLimit1 = qr"\xC7\x82\xD0\x00\x00\x00\x88\x84\x02\x00"s;$newLimit1 = "\xC7\x82\xD0\x00\x00\x00\x80\x1A\x06\x00";$oldLimit2 = qr"\xC7\x82\x20\x01\x00\x00\x88\x84\x02\x00"s;$newLimit2 = "\xC7\x82\x20\x01\x00\x00\x80\x1A\x06\x00";s/$oldLimit1/$newLimit1/g;s/$oldLimit2/$newLimit2/g' /System/Library/Extensions/NVDAGK100Hal.kext/Contents/MacOS/NVDAGK100Hal
+	sudo touch /System/Library/Extensions
+fi
 
 if [ "$amd_md5_current" = "$amd_md5_10_9_1" ]; then
 	echo "Detected unpatched AMD driver on 10.9.1, patching."
