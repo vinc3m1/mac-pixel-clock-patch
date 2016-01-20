@@ -319,7 +319,7 @@ if [ "$iokit_md5_current" = "$iokit_md5_10_11_1" ]; then
 fi
 
 if [ "$iokit_md5_current" = "$iokit_md5_10_11_2" ]; then
-	echo "Detected unpatched IOKit on 10.11.2, patching."
+	echo "Detected unpatched IOKit on 10.11.2 or 10.11.3, patching."
 	sudo perl -i.bak -pe '$before = qr"\x0f\x85\x92\x03\x00\x00"s;s/$before/\xe9\x7a\x03\x00\x00\x90/g' /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
 	sudo touch /System/Library/Extensions
 	# Now appears to require re-signing, despite not being in CodeResources
