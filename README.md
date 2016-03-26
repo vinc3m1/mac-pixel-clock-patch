@@ -1,6 +1,6 @@
-### This patch has a version 2 in development, the VERSION 2 patch has a few advantages over this one. mainly the ability to patch yet unsopported versions and it regained the ability to detect patched IOKit files. found here [VERSION 2](https://github.com/Floris497/mac-pixel-clock-patch-V2)
+### There is a [Version 2](https://github.com/Floris497/mac-pixel-clock-patch-V2) of this patch availible that is made to replace this script in its intirety.. therefore this script is not being maintained anymore.
 
-This patch will be maintained in parallel with [VERSION 2](https://github.com/Floris497/mac-pixel-clock-patch-V2) until the new script has been proven worthy.
+### for 10.11.4 support and up use Version 2 of this script.
 
 Mac Pixel Clock Patcher
 =====
