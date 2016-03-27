@@ -1,10 +1,14 @@
+### There is a [Version 2](https://github.com/Floris497/mac-pixel-clock-patch-V2) of this patch availible that is made to replace this script in its intirety.. therefore this script is not being maintained anymore.
+
+### for 10.11.4 support and up use Version 2 of this script.
+
 Mac Pixel Clock Patcher
 =====
 
-Updated with Yosemite Beta support!
+Updated with El Capitan support!
 
 This will remove the 165 pixel clock limiter on your display driver to support 4k @ 30Hz over HDMI.
-An [Active DisplayPort to HDMI adapter](http://www.amazon.com/gp/product/B00DOZHLAA/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00DOZHLAA&linkCode=as2&tag=makeramencom-20&linkId=TR5RNZEM24Z7KP7N) is often needed for this to work.
+An [Active DisplayPort to HDMI adapter](http://www.amazon.com/gp/product/B00DOZHLAA/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00DOZHLAA&linkCode=as2&tag=makeramencom-20&linkId=TR5RNZEM24Z7KP7N) is sometimes needed for this to work.
 
 Original forum thread [here](https://github.com/vinc3m1/mac-pixel-clock-patch).
 
@@ -15,6 +19,17 @@ Based on the [original](https://code.google.com/p/mac-pixel-clock-patch/wiki/Doc
 
 How to install this patch
 =====
+
+#####MAKE SURE TO DISABLE SIP on 10.11 and newer.
+
+First make sure SIP (System Integrity Protection) is turned off for this to work.
+You can disable/enable this only when you boot into the recovery partition.
+If you booted into the recovery partition and open the terminal you use ```csrutil disable``` to disable, ```csrutil enable``` to enable and ```csrutil status``` to check the status of SIP you can also check the status on your normal system.
+the changes to SIP are only visible in the terminal after a reboot, so it will still notify you that SIP is on when you disable it and run ```csrutil status``` right after it.
+
+SIP can safely be enabled after the patch of the IOKit, if you also want to use an Nvidia/AMD driver that has been patched you need to keep SIP disabled. this is because SIP will not allow you to run drivers which have a broken or no codesignature. by patching the driver we obviously break the codesignature.
+kernal extensions are not signable by anyone but apple and trusted parties. so SIP needs to be off for them to load.
+IOKit is not a kernel extension and therefore must be codesigned to run, this is done with the wildcard certificat, unique to everyone. even with SIP disabled the IOKit will not run without this new codesignature. the script takes care of the codesigning of the IOKit. 
 
 Download the `.command` file
 
@@ -35,7 +50,7 @@ Pay attention to the output - it should say it detected unpatched IOKit and NVID
 
 Reboot your system.
 
-After reboot, you should be able to get custom resolutions with over 165 MHz pixel clock to work using SwitchResX (not required after 10.9).
+After reboot, you should be able to get custom resolutions with over 165 MHz pixel clock to work using SwitchResX.
 
 
 Instructions for updating the command for newer versions of IOKit
@@ -126,8 +141,8 @@ offset 0x0000039D will be in the instruction stream as 0x9D 0x03 0x00 0x00
 So, finally, the existing instruction is `JNE +925`, or `JNE +0x39D`, which is
 encoded as:
 ```
-(0F 85) JNE (9D 39 00 00) +925
-0F 85 9D 39 00 00
+(0F 85) JNE (9D 03 00 00) +925
+0F 85 9D 03 00 00
 ```
 
 The instructions we want to replace it with are `JMP +900`, `NOP`, or `JMP +0x384`,
